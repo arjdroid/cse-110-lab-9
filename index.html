@@ -68,6 +68,8 @@
             </fieldset>
         </form>
 
+        <!-- <div id="calc-limits" data-min="-1000" data-max="1000"></div> -->
+
         <section id="error-btns">
             <button>Console Log</button>
             <button>Console Error</button>
@@ -101,7 +103,7 @@
         let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
         errorBtns[0].addEventListener('click', () => console.log('Console Log Demo'));
-        errorBtns[1].addEventListener('click', () => console.error('Console Error Demo'));
+        //errorBtns[1].addEventListener('click', () => console.error('Console Error Demo'));
         errorBtns[2].addEventListener('click', () => console.count('Console Count Demo'));
         errorBtns[3].addEventListener('click', () => console.warn('Console Warn Demo'));
         errorBtns[4].addEventListener('click', () => console.assert(2 + 2 == 5,
@@ -113,8 +115,25 @@
         errorBtns[9].addEventListener('click', () => console.groupEnd());
         errorBtns[10].addEventListener('click', () => console.table(errorBtns));
         errorBtns[11].addEventListener('click', () => console.time('Time Taken'));      
-        errorBtns[12].addEventListener('click', () => console.timeEnd('Time Taken'));      
-        errorBtns[13].addEventListener('click', () => console.trace());      
+        errorBtns[12].addEventListener('click', () => console.timeEnd('Time Taken'));
+        const are = () => { we(); };
+        const we = () => { console.trace(); };
+        errorBtns[13].addEventListener('click', () => are());
+        // step 3
+        errorBtns[14].addEventListener('click', () => {
+            try {
+                const limitsEl = document.querySelector('#calc-limits');
+                if (!limitsEl) throw new Error('#calc-limits config element is missing from the DOM');
+                const min = Number(limitsEl.dataset.min);
+                const max = Number(limitsEl.dataset.max);
+                console.log(`Calculator limits loaded: [${min}, ${max}]`);
+            } catch (err) {
+                console.error('Failed to load calculator limits:', err.message);
+                throw err;
+            } finally {
+                console.log('Limit load attempt finished');
+            }
+        });
 
     </script>
 </body>
