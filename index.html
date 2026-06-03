@@ -119,16 +119,23 @@
         const are = () => { we(); };
         const we = () => { console.trace(); };
         errorBtns[13].addEventListener('click', () => are());
-        // step 3
+        class MissingConfigError extends Error {
+            constructor(selector) {
+                super(`Required config element "${selector}" is missing from the DOM`);
+                this.name = 'MissingConfigError';
+                this.selector = selector;
+            }
+        }
+
         errorBtns[14].addEventListener('click', () => {
             try {
                 const limitsEl = document.querySelector('#calc-limits');
-                if (!limitsEl) throw new Error('#calc-limits config element is missing from the DOM');
+                if (!limitsEl) throw new MissingConfigError('#calc-limits');
                 const min = Number(limitsEl.dataset.min);
                 const max = Number(limitsEl.dataset.max);
                 console.log(`Calculator limits loaded: [${min}, ${max}]`);
             } catch (err) {
-                console.error('Failed to load calculator limits:', err.message);
+                console.error(`${err.name}: ${err.message}`);
                 throw err;
             } finally {
                 console.log('Limit load attempt finished');
