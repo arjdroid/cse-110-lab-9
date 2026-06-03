@@ -127,19 +127,23 @@
             }
         }
 
+        window.addEventListener('error', (event) => {
+            console.log(`Global error intercepted: ${event.message}`);
+        });
+
         errorBtns[14].addEventListener('click', () => {
-            try {
+            /*try {*/
                 const limitsEl = document.querySelector('#calc-limits');
                 if (!limitsEl) throw new MissingConfigError('#calc-limits');
                 const min = Number(limitsEl.dataset.min);
                 const max = Number(limitsEl.dataset.max);
                 console.log(`Calculator limits loaded: [${min}, ${max}]`);
-            } catch (err) {
+            /*} catch (err) {
                 console.error(`${err.name}: ${err.message}`);
                 throw err;
             } finally {
                 console.log('Limit load attempt finished');
-            }
+            }*/
         });
 
     </script>
